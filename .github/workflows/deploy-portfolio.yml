@@ -1,0 +1,42 @@
+name: Deploy portfolio site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "05-aws-portfolio-website/site/**"
+      - ".github/workflows/deploy-portfolio.yml"
+  workflow_dispatch:
+
+# Required for GitHub to issue the OIDC token that AWS trusts
+permissions:
+  id-token: write
+  contents: read
+
+# Never run two deploys at the same time
+concurrency:
+  group: portfolio-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Get temporary AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Upload site to S3
+        run: |
+          aws s3 sync 05-aws-portfolio-website/site "s3://${{ vars.S3_BUCKET }}" --delete
+
+      - name: Clear CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}" \
+            --paths "/*"
