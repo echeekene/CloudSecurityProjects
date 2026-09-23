@@ -47,4 +47,4 @@ Cloud-hosted portfolio showcasing cybersecurity and cloud projects.
 
 **Technologies:** AWS, S3, CloudFront, HTML, CSS
 
-**Status:** Planned
+**Status:** Complete (Live)
