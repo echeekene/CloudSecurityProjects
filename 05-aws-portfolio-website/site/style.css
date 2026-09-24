@@ -83,3 +83,15 @@ footer {
   color: var(--muted);
   font-size: 0.85rem;
 }
+
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.orgs { list-style: none; display: grid; gap: 12px; }
+.orgs li { display: flex; flex-direction: column; }
+.orgs small { color: var(--muted); font-size: 0.85rem; }
