@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="topbar"><div class="topbar-inner">
+    <a class="brand" href="index.html">Ekene Eche</a>
+    <nav class="toplinks"><a href="index.html#projects">Projects</a><a href="about.pdf">About</a><a href="resume.pdf">Resume</a></nav>
+  </div></div>
   <main>
     <header>
       <img class="avatar" src="photo.jpg" alt="Ekene Eche" width="96" height="96">
@@ -22,6 +26,7 @@
         <a href="mailto:ekeneeche@gmail.com">Email</a>
       </nav>
     </header>
+
 
     <section>
       <h2>Certifications</h2>
@@ -53,23 +58,40 @@
       </ul>
     </section>
 
-    <section>
+    <section id="projects">
       <h2>Projects</h2>
-      <article>
-        <h3>AWS Cloud Security &amp; Threat Detection Lab</h3>
-        <p>Hardened S3 and least privilege IAM, a dedicated CloudTrail log bucket, and control testing with IAM Access Analyzer.</p>
-        <p class="tags">AWS &middot; IAM &middot; S3 &middot; CloudTrail &middot; AWS CLI</p>
-      </article>
-      <article>
-        <h3>Splunk Security Monitoring &amp; Automation</h3>
-        <p>Windows event logs in Splunk Enterprise with searches for failed logons and suspicious accounts, plus Python triage automation.</p>
-        <p class="tags">Splunk &middot; Python &middot; Windows</p>
-      </article>
-      <article>
-        <h3>Enterprise Identity &amp; Access Management Lab</h3>
-        <p>RBAC, security groups, and MFA in Microsoft Entra ID, with Joiner, Mover, Leaver workflows and sign in log investigation.</p>
-        <p class="tags">Microsoft Entra ID &middot; RBAC &middot; MFA</p>
-      </article>
+      <div class="cards">
+        <a class="card" href="projects/aws-portfolio-site.html">
+          <div class="card-top"><h3>AWS Hosted Portfolio with Automated Deploys</h3><span class="badge live">Live</span></div>
+          <p>This website: a private S3 bucket behind CloudFront, a custom domain with ACM TLS, and keyless CI/CD through GitHub Actions and OIDC.</p>
+          <p class="tags">AWS S3 &middot; CloudFront &middot; ACM &middot; IAM</p>
+          <span class="more">Read more &rarr;</span>
+        </a>
+        <a class="card" href="projects/ai-siem-triage.html">
+          <div class="card-top"><h3>AI Augmented SIEM Threat Detection &amp; Triage</h3><span class="badge wip">In progress</span></div>
+          <p>An end to end pipeline that detects a simulated brute force attack in Splunk and uses AI to draft the incident triage.</p>
+          <p class="tags">Splunk Enterprise &middot; SPL &middot; Python &middot; Generative AI</p>
+          <span class="more">Read more &rarr;</span>
+        </a>
+        <a class="card" href="projects/aws-cloud-security-lab.html">
+          <div class="card-top"><h3>AWS Cloud Security &amp; Threat Detection Lab</h3></div>
+          <p>A hardened AWS environment with least privilege IAM, locked down S3, and CloudTrail monitoring, tested by attempting to break it.</p>
+          <p class="tags">AWS &middot; IAM &middot; S3 &middot; CloudTrail</p>
+          <span class="more">Read more &rarr;</span>
+        </a>
+        <a class="card" href="projects/splunk-monitoring.html">
+          <div class="card-top"><h3>Splunk Security Monitoring &amp; Automation</h3></div>
+          <p>Windows event logs in Splunk Enterprise with searches for suspicious activity and Python triage automation.</p>
+          <p class="tags">Splunk Enterprise &middot; SPL &middot; Python &middot; Windows Event Logs</p>
+          <span class="more">Read more &rarr;</span>
+        </a>
+        <a class="card" href="projects/entra-iam-lab.html">
+          <div class="card-top"><h3>Enterprise Identity &amp; Access Management Lab</h3></div>
+          <p>An enterprise identity environment in Microsoft Entra ID covering RBAC, MFA, and the full user lifecycle.</p>
+          <p class="tags">Microsoft Entra ID &middot; RBAC &middot; MFA &middot; Least privilege</p>
+          <span class="more">Read more &rarr;</span>
+        </a>
+      </div>
     </section>
 
     <section>

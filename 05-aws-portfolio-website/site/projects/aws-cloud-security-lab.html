@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS Cloud Security & Threat Detection Lab | Ekene Eche</title>
+  <meta name="description" content="Ekene Eche, cybersecurity portfolio: cloud security, SIEM, and threat detection.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner">
+    <a class="brand" href="../index.html">Ekene Eche</a>
+    <nav class="toplinks"><a href="../index.html#projects">Projects</a><a href="../about.pdf">About</a><a href="../resume.pdf">Resume</a></nav>
+  </div></div>
+  <main>
+    <a class="back" href="../index.html#projects">&larr; All projects</a>
+    <header class="project-head">
+      
+      <h1>AWS Cloud Security &amp; Threat Detection Lab</h1>
+      <p class="tagline">A hardened AWS environment with least privilege IAM, locked down S3, and CloudTrail monitoring, tested by attempting to break it.</p>
+      <ul class="chips"><li>AWS</li><li>IAM</li><li>S3</li><li>CloudTrail</li><li>IAM Access Analyzer</li><li>AWS CLI</li></ul>
+      <a class="button" href="https://github.com/echeekene/CloudSecurityProjects/tree/main/01-aws-cloud-security-lab">View on GitHub</a>
+    </header>
+    <section class="detail">
+      <h2>Goal</h2>
+      <p>Build a small AWS environment the way a security team would: separate identities, least privilege, locked down storage, and audit logging. Then prove the controls work by trying to get around them.</p>
+    </section>
+    <section class="detail">
+      <h2>Identity and least privilege</h2>
+      <ul class="points"><li>Created a dedicated <strong>admin IAM user</strong> for lab administration instead of routinely using the root account.</li><li>Created a separate <strong>lab user</strong> with MFA enabled and only <strong>S3 read only</strong> access, plus the permission needed to sign in from the AWS CLI.</li></ul><div class="figs"><figure><a href="img/aws-lab/lab-user-permissions.png" target="_blank" rel="noopener"><img src="img/aws-lab/lab-user-permissions.png" alt="The lab user has only two AWS managed policies: S3 read only and CLI sign in." loading="lazy"></a><figcaption>The lab user has only two AWS managed policies: S3 read only and CLI sign in.</figcaption></figure></div>
+    </section>
+    <section class="detail">
+      <h2>Locked down storage</h2>
+      <ul class="points"><li><strong>Block all public access</strong> turned on for the lab bucket.</li><li><strong>Default encryption</strong> with S3 managed keys (SSE-S3), Bucket Key enabled, and customer provided keys (SSE-C) blocked.</li><li><strong>IAM Access Analyzer</strong> confirmed zero buckets with public access and zero shared with other AWS accounts.</li></ul><div class="figs"><figure><a href="img/aws-lab/block-public-access.png" target="_blank" rel="noopener"><img src="img/aws-lab/block-public-access.png" alt="Block all public access is on." loading="lazy"></a><figcaption>Block all public access is on.</figcaption></figure><figure><a href="img/aws-lab/default-encryption.png" target="_blank" rel="noopener"><img src="img/aws-lab/default-encryption.png" alt="SSE-S3 default encryption with SSE-C blocked." loading="lazy"></a><figcaption>SSE-S3 default encryption with SSE-C blocked.</figcaption></figure><figure><a href="img/aws-lab/access-analyzer.png" target="_blank" rel="noopener"><img src="img/aws-lab/access-analyzer.png" alt="Access Analyzer: no public or cross account buckets." loading="lazy"></a><figcaption>Access Analyzer: no public or cross account buckets.</figcaption></figure></div>
+    </section>
+    <section class="detail">
+      <h2>Audit logging with CloudTrail</h2>
+      <ul class="points"><li>Created a trail that delivers logs to a dedicated log bucket, separate from the data it monitors.</li><li>Enabled <strong>log file validation</strong>, so CloudTrail writes signed digest files that reveal if any log is altered or deleted.</li><li>Reviewed API activity in Event history, including <code>CreateAnalyzer</code> and a <code>PutBucketPolicy</code> call that failed with <code>MalformedPolicy</code>, confirming that failed changes are captured too.</li></ul><div class="figs"><figure><a href="img/aws-lab/cloudtrail-trail.png" target="_blank" rel="noopener"><img src="img/aws-lab/cloudtrail-trail.png" alt="The trail is logging, with log file validation enabled." loading="lazy"></a><figcaption>The trail is logging, with log file validation enabled.</figcaption></figure><figure><a href="img/aws-lab/cloudtrail-putbucketpolicy.png" target="_blank" rel="noopener"><img src="img/aws-lab/cloudtrail-putbucketpolicy.png" alt="CloudTrail recorded a failed bucket policy change with its error code." loading="lazy"></a><figcaption>CloudTrail recorded a failed bucket policy change with its error code.</figcaption></figure></div>
+    </section>
+    <section class="detail">
+      <h2>Testing the controls</h2>
+      <ul class="points"><li>Signed in as the lab user and listed the bucket successfully, which read only access allows.</li><li>Tried to upload a file with <code>aws s3 cp</code>: denied, because no policy allows <code>s3:PutObject</code>.</li><li>Tried to delete an object with <code>aws s3 rm</code>: denied, because no policy allows <code>s3:DeleteObject</code>.</li><li>Repeated both actions in the console with the same result, showing the policy is enforced regardless of the tool.</li></ul><div class="figs"><figure><a href="img/aws-lab/cli-putobject-denied.png" target="_blank" rel="noopener"><img src="img/aws-lab/cli-putobject-denied.png" alt="Listing works, but the upload is denied." loading="lazy"></a><figcaption>Listing works, but the upload is denied.</figcaption></figure><figure><a href="img/aws-lab/cli-deleteobject-denied.png" target="_blank" rel="noopener"><img src="img/aws-lab/cli-deleteobject-denied.png" alt="The delete is denied as well." loading="lazy"></a><figcaption>The delete is denied as well.</figcaption></figure><figure><a href="img/aws-lab/console-upload-denied.png" target="_blank" rel="noopener"><img src="img/aws-lab/console-upload-denied.png" alt="The console enforces the same policy." loading="lazy"></a><figcaption>The console enforces the same policy.</figcaption></figure></div>
+    </section>
+    <section class="detail">
+      <h2>Next improvements</h2>
+      <ul class="points"><li>Make the trail <strong>multi region</strong> so activity in every region is recorded.</li><li>Encrypt the log bucket with <strong>SSE-KMS</strong> for tighter control over who can read logs.</li><li>Add <strong>alerting</strong> through EventBridge and SNS for sensitive calls such as bucket policy changes.</li></ul>
+    </section>
+    <nav class="pager"><a href="ai-siem-triage.html"><small>Previous</small>AI Augmented SIEM Threat Detection &amp; Triage</a><a class="next" href="splunk-monitoring.html"><small>Next</small>Splunk Security Monitoring &amp; Automation</a></nav>
+    <footer><p>Houston, TX &middot; Hosted on Amazon S3 and CloudFront</p></footer>
+  </main>
+</body>
+</html>

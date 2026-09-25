@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Augmented SIEM Threat Detection & Triage | Ekene Eche</title>
+  <meta name="description" content="Ekene Eche, cybersecurity portfolio: cloud security, SIEM, and threat detection.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner">
+    <a class="brand" href="../index.html">Ekene Eche</a>
+    <nav class="toplinks"><a href="../index.html#projects">Projects</a><a href="../about.pdf">About</a><a href="../resume.pdf">Resume</a></nav>
+  </div></div>
+  <main>
+    <a class="back" href="../index.html#projects">&larr; All projects</a>
+    <header class="project-head">
+      <span class="badge wip">In progress</span>
+      <h1>AI Augmented SIEM Threat Detection &amp; Triage</h1>
+      <p class="tagline">An end to end pipeline that detects a simulated brute force attack in Splunk and uses AI to draft the incident triage.</p>
+      <ul class="chips"><li>Splunk Enterprise</li><li>SPL</li><li>Python</li><li>Generative AI</li><li>MITRE ATT&amp;CK</li><li>HEC</li></ul>
+      
+    </header>
+    <section class="detail">
+      <h2>Goal</h2>
+      <p>Show a complete detection and triage flow: synthetic logs, Splunk detection, Python processing, AI analysis, and a Splunk dashboard.</p>
+    </section>
+    <section class="detail">
+      <h2>Scenario</h2>
+      <p>A brute force attack: many failed logins from one IP followed by a successful login, hidden among realistic noise such as legitimate users mistyping passwords.</p>
+    </section>
+    <section class="detail">
+      <h2>Design decisions</h2>
+      <ul class="points"><li><strong>Detection:</strong> an SPL search flags any source IP with at least 10 failures plus at least 1 success.</li><li><strong>Deterministic scoring:</strong> risk scores are computed in Python, kept separate from the AI generated narrative so results stay explainable and debuggable.</li><li><strong>Constrained AI:</strong> MITRE ATT&amp;CK suggestions are limited to a validated list of candidate techniques in the prompt.</li><li><strong>Closing the loop:</strong> AI results are written back to Splunk through HEC into an <code>ai_triage</code> index for dashboarding.</li></ul>
+    </section>
+    <section class="detail">
+      <h2>Status</h2>
+      <p>The log generator and detection query are built. Next up is the Python receiver that processes the Splunk alert and routes it to AI analysis.</p>
+    </section>
+    <nav class="pager"><a href="aws-portfolio-site.html"><small>Previous</small>AWS Hosted Portfolio with Automated Deploys</a><a class="next" href="aws-cloud-security-lab.html"><small>Next</small>AWS Cloud Security &amp; Threat Detection Lab</a></nav>
+    <footer><p>Houston, TX &middot; Hosted on Amazon S3 and CloudFront</p></footer>
+  </main>
+</body>
+</html>
