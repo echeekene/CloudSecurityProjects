@@ -41,4 +41,4 @@ The EventCode 4740 extraction assumes English Message formatting and an existing
 
 ## Supporting Evidence
 
-The screenshot inventory maps original filenames to the selected images. Command screenshots containing password-like strings and alert-history screenshots containing personal browser context are excluded from the public evidence folder.
+Command screenshots containing password-like strings and alert-history screenshots containing personal browser context are excluded from the public evidence folder.

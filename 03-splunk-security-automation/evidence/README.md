@@ -18,10 +18,6 @@ The screenshots document the lab setup, Windows event collection, detection sear
 | 15–17 | Lockout alert schedule, throttle, and severity |
 | 18 | Saved-alert confirmation and trial-license warning |
 
-## Screenshot Inventory
-
-[screenshot-inventory.csv](screenshot-inventory.csv) records all 120 source screenshots, their inclusion status, and the selected filenames. SHA-256 values identify the original files. The 18 included images retain their original contents.
-
 ## Publication Privacy
 
 Screenshots containing password-like strings, contact details, personal browser/profile context, or internal network configuration are excluded. Redundant setup images and unrelated material are also omitted.
