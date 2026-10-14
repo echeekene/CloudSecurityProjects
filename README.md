@@ -7,11 +7,13 @@ I built these projects to gain practical experience securing cloud environments,
 ## Projects
 
 ### 01 - AWS Cloud Security Lab
-Hands-on AWS security environment focused on IAM, S3 security, logging, monitoring, and least-privilege access.
+Completed AWS security lab covering IAM least privilege, S3 access controls and encryption, CloudTrail logging, and IAM Access Analyzer. Tested permitted and denied actions to verify access controls.
 
-**Technologies:** AWS, IAM, S3, CloudTrail, IAM Access Analyzer, GuardDuty, AWS CLI
+**Technologies:** AWS, IAM, S3, CloudTrail, IAM Access Analyzer, AWS CLI, PowerShell, JSON
 
-**Status:** In Progress
+**Status:** Completed
+
+[View project](01-aws-cloud-security-lab/README.md)
 
 ---
 
@@ -24,12 +26,14 @@ Identity and access management lab focused on users, groups, RBAC, MFA, and leas
 
 ---
 
-### 03 - Splunk Security Automation
-Security monitoring and automation project using Splunk and Python to analyze logs and identify suspicious activity.
+### 03 - Active Directory Security Monitoring with Splunk
+Windows Active Directory lab focused on failed login detection, account lockout monitoring, security dashboards, and scheduled alerts. Future updates include Python triage, reporting, and notifications.
 
-**Technologies:** Splunk Enterprise, Python, Windows, Security Monitoring
+**Technologies:** VMware Workstation, Windows Server, AD DS, Group Policy, Splunk Enterprise, Universal Forwarder, SPL, PowerShell
 
-**Status:** In Progress
+**Status:** Core lab completed; validation and automation improvements planned
+
+[View project](03-splunk-security-automation/README.md)
 
 ---
 
@@ -48,3 +52,5 @@ Cloud-hosted portfolio showcasing cybersecurity and cloud projects.
 **Technologies:** AWS, S3, CloudFront, HTML, CSS
 
 **Status:** Complete (Live)
+
+[View portfolio](https://ekeneeche.com)

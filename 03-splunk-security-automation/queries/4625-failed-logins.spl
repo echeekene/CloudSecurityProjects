@@ -1,0 +1,3 @@
+host="EK-DC01" sourcetype="WinEventLog:Security" EventCode=4625
+| table _time, Account_Name, Source_Network_Address, Failure_Reason, Logon_Type
+| sort -_time

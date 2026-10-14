@@ -1,0 +1,2 @@
+host="EK-DC01" sourcetype="WinEventLog:Security" EventCode=4625
+| timechart span=5m count AS "Failed Logins"

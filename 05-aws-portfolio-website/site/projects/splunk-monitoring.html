@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Splunk Security Monitoring & Automation | Ekene Eche</title>
+  <title>Active Directory Security Monitoring with Splunk | Ekene Eche</title>
   <meta name="description" content="Ekene Eche, cybersecurity portfolio: cloud security, SIEM, and threat detection.">
   <link rel="stylesheet" href="../style.css">
 </head>
@@ -16,18 +16,64 @@
     <a class="back" href="../index.html#projects">&larr; All projects</a>
     <header class="project-head">
       
-      <h1>Splunk Security Monitoring &amp; Automation</h1>
-      <p class="tagline">Windows event logs in Splunk Enterprise with searches for suspicious activity and Python triage automation.</p>
-      <ul class="chips"><li>Splunk Enterprise</li><li>SPL</li><li>Python</li><li>Windows Event Logs</li></ul>
+      <span class="badge live">Completed</span>
+      <h1>Active Directory Security Monitoring with Splunk</h1>
+      <p class="tagline">A Windows Active Directory lab with failed login detection, account lockout monitoring, security dashboards, and scheduled Splunk alerts.</p>
+      <ul class="chips"><li>VMware Workstation</li><li>Windows Server 2022</li><li>Active Directory</li><li>Splunk Enterprise</li><li>SPL</li><li>PowerShell</li></ul>
       <a class="button" href="https://github.com/echeekene/CloudSecurityProjects/tree/main/03-splunk-security-automation">View on GitHub</a>
     </header>
     <section class="detail">
-      <h2>Detection</h2>
-      <p>Ingested Windows event logs into Splunk Enterprise and wrote searches surfacing failed logons and suspicious account activity.</p>
+      <h2>Goal</h2>
+      <p>Build an Active Directory lab, collect Windows security events in Splunk, and test how failed authentication and account lockout activity appears in searches, dashboards, and scheduled alerts.</p>
     </section>
     <section class="detail">
-      <h2>Automation</h2>
-      <p>Automated log parsing and triage with Python to flag anomalies faster than manual review.</p>
+      <h2>Lab environment</h2>
+      <p>Built a Windows Server 2022 virtual machine in VMware Workstation, configured Active Directory Domain Services, and created a lab organizational unit and test accounts.</p>
+      <p>Installed Splunk Universal Forwarder and verified that Windows Application, Security, and System events were searchable in Splunk Enterprise.</p>
+      <div class="figs">
+        <figure><a href="img/splunk-lab/active-directory-lab-users.png" target="_blank" rel="noopener"><img src="img/splunk-lab/active-directory-lab-users.png" alt="Active Directory lab domain and test users in the LabUsers organizational unit." width="1040" height="1040" loading="lazy"></a><figcaption>Active Directory lab domain and test users in the LabUsers organizational unit.</figcaption></figure>
+        <figure><a href="img/splunk-lab/windows-event-sources.png" target="_blank" rel="noopener"><img src="img/splunk-lab/windows-event-sources.png" alt="Windows Application, Security, and System event sources are searchable in Splunk." width="1135" height="622" loading="lazy"></a><figcaption>Windows Application, Security, and System event sources are searchable in Splunk.</figcaption></figure>
+      </div>
+    </section>
+    <section class="detail">
+      <h2>Detection and account lockout policy</h2>
+      <ul class="points">
+        <li>Investigated failed logons using <strong>Event ID 4625</strong>, including account names, failure reasons, source addresses, and logon types.</li>
+        <li>Created an SPL search for five or more failed logins per account group in a fixed five-minute bucket.</li>
+        <li>Configured a lockout threshold of <strong>5 invalid attempts</strong>, a <strong>30-minute lockout duration</strong>, and a <strong>30-minute reset window</strong>.</li>
+        <li>Checked the test account's locked state and identified the resulting <strong>Event ID 4740</strong> record with the locked account and caller computer.</li>
+      </ul>
+      <div class="figs">
+        <figure><a href="img/splunk-lab/lockout-policy.png" target="_blank" rel="noopener"><img src="img/splunk-lab/lockout-policy.png" alt="The effective domain policy shows a threshold of 5 attempts, a 30-minute duration, and a 30-minute reset window." width="2048" height="1088" loading="lazy"></a><figcaption>The effective domain policy shows a threshold of 5 attempts, a 30-minute duration, and a 30-minute reset window.</figcaption></figure>
+        <figure><a href="img/splunk-lab/failed-login-search.png" target="_blank" rel="noopener"><img src="img/splunk-lab/failed-login-search.png" alt="Event ID 4625 results show the failed logon, source, failure reason, and logon type." width="1235" height="785" loading="lazy"></a><figcaption>Event ID 4625 results show the failed logon, source, failure reason, and logon type.</figcaption></figure>
+        <figure><a href="img/splunk-lab/account-lockout-search.png" target="_blank" rel="noopener"><img src="img/splunk-lab/account-lockout-search.png" alt="Event ID 4740 identifies the locked test account and caller computer." width="2048" height="928" loading="lazy"></a><figcaption>Event ID 4740 identifies the locked test account and caller computer.</figcaption></figure>
+      </div>
+    </section>
+    <section class="detail">
+      <h2>Dashboard and scheduled alerts</h2>
+      <p>Created the Active Directory Security Monitoring dashboard with login charts, account activity, suspicious-login summaries, and populated lockout results.</p>
+      <p>Configured failed-login and account lockout alerts to run every five minutes using <code>*/5 * * * *</code>, with a result-count trigger and a 15-minute throttle. The lockout alert uses High severity in Splunk's Triggered Alerts. Both alerts have recorded trigger history.</p>
+      <div class="figs">
+        <figure><a href="img/splunk-lab/login-dashboard.png" target="_blank" rel="noopener"><img src="img/splunk-lab/login-dashboard.png" alt="The Active Directory Security Monitoring dashboard charts failed and successful login activity." width="957" height="1197" loading="lazy"></a><figcaption>The Active Directory Security Monitoring dashboard charts failed and successful login activity.</figcaption></figure>
+        <figure><a href="img/splunk-lab/dashboard-detection-results.png" target="_blank" rel="noopener"><img src="img/splunk-lab/dashboard-detection-results.png" alt="Dashboard tables show suspicious-login summaries and a populated account lockout result." width="2048" height="1252" loading="lazy"></a><figcaption>Dashboard tables show suspicious-login summaries and a populated account lockout result.</figcaption></figure>
+        <figure><a href="img/splunk-lab/alert-schedule.png" target="_blank" rel="noopener"><img src="img/splunk-lab/alert-schedule.png" alt="The lockout alert runs every five minutes; this configuration screenshot shows a 15-minute search lookback." width="1610" height="1316" loading="lazy"></a><figcaption>The lockout alert runs every five minutes; this configuration screenshot shows a 15-minute search lookback.</figcaption></figure>
+        <figure><a href="img/splunk-lab/alert-severity-and-throttle.png" target="_blank" rel="noopener"><img src="img/splunk-lab/alert-severity-and-throttle.png" alt="The lockout alert uses a 15-minute throttle and a High severity Add to Triggered Alerts action." width="1588" height="1272" loading="lazy"></a><figcaption>The lockout alert uses a 15-minute throttle and a High severity Add to Triggered Alerts action.</figcaption></figure>
+      </div>
+    </section>
+    <section class="detail">
+      <h2>Results and validation</h2>
+      <p>The core lab is complete: Windows events were collected, failed-login searches returned results, a test account locked out, and the resulting lockout was visible in Splunk.</p>
+      <p>Further validation will confirm the final saved five-minute alert search window and throttle behavior. Earlier alert settings show a 15-minute lookback. Multivalued account fields also need normalization, and actual 30-minute account recovery was not timed.</p>
+    </section>
+    <section class="detail">
+      <h2>Future improvements</h2>
+      <ul class="points">
+        <li>Refine account attribution and evaluate a sliding five-minute detection window.</li>
+        <li>Validate alert search windows, suppression, and the password-reset panel's underlying query.</li>
+        <li>Add Python event triage and rule-based severity classification.</li>
+        <li>Generate CSV or JSON incident reports and add administrator notifications.</li>
+      </ul>
+      <p>Python triage, automated reporting, and external notifications are planned additions.</p>
     </section>
     <nav class="pager"><a href="aws-cloud-security-lab.html"><small>Previous</small>AWS Cloud Security &amp; Threat Detection Lab</a><a class="next" href="entra-iam-lab.html"><small>Next</small>Enterprise Identity &amp; Access Management Lab</a></nav>
     <footer><p>Houston, TX &middot; Hosted on Amazon S3 and CloudFront</p></footer>

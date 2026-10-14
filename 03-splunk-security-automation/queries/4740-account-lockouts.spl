@@ -1,0 +1,3 @@
+host="EK-DC01" sourcetype="WinEventLog:Security" EventCode=4740
+| rex field=Message "Account That Was Locked Out:\s+Security ID:\s+\S+\s+Account Name:\s+(?<Locked_Account>\S+)"
+| table _time, Locked_Account, Caller_Computer_Name

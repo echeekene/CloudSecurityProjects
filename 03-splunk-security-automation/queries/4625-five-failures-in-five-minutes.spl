@@ -1,0 +1,5 @@
+host="EK-DC01" sourcetype="WinEventLog:Security" EventCode=4625
+| bin _time span=5m
+| stats count AS Failed_Attempts by _time, Account_Name
+| where Failed_Attempts >= 5
+| sort -_time
