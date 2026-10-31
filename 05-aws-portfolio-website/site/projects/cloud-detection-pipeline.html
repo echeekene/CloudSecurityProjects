@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Detection Pipeline | Ekene Eche</title>
+  <meta name="description" content="Ekene Eche, cybersecurity portfolio: an AWS threat detection pipeline with live alerting, attack simulation, and keyless CI/CD.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner">
+    <a class="brand" href="../index.html">Ekene Eche</a>
+    <nav class="toplinks"><a href="../index.html#projects">Projects</a><a href="../about.pdf">About</a><a href="../resume.pdf">Resume</a></nav>
+  </div></div>
+  <main>
+    <a class="back" href="../index.html#projects">&larr; All projects</a>
+    <header class="project-head">
+      <span class="badge live">Live</span>
+      <h1>Cloud Detection Pipeline</h1>
+      <p class="tagline">An AWS threat detection pipeline that turns CloudTrail logs into queryable data, runs six MITRE ATT&amp;CK detections every 15 minutes, alerts in Slack, and attacks itself on a schedule to prove the detections still work.</p>
+      <ul class="chips"><li>CloudTrail</li><li>Lambda</li><li>Athena</li><li>Glue</li><li>DynamoDB</li><li>EventBridge</li><li>CloudWatch</li><li>Terraform</li><li>Python</li><li>SQL</li><li>GitHub Actions</li><li>OIDC</li></ul>
+      <a class="button" href="https://github.com/echeekene/Cloud-detection-pipeline">View on GitHub</a>
+    </header>
+    <section class="detail">
+      <h2>Goal</h2>
+      <p>Build the kind of detection pipeline a cloud security team runs in production: collect every account action, make it searchable, alert on risky behavior quickly, and continuously prove the alerts still fire.</p>
+      <div class="figs">
+        <figure><a href="img/cloud-detection/architecture.png" target="_blank" rel="noopener"><img src="img/cloud-detection/architecture.png" alt="Architecture in four layers: collect and process, detect and respond, validate and monitor, build and deploy." width="2560" height="1464" loading="lazy"></a><figcaption>Four layers: collect and process, detect and respond, validate and monitor, and build and deploy.</figcaption></figure>
+      </div>
+    </section>
+    <section class="detail">
+      <h2>Results</h2>
+      <ul class="points">
+        <li><strong>6 detections</strong> mapped to MITRE ATT&amp;CK, each with a triage runbook: console login without MFA, root login, IAM policy attached, access key created, CloudTrail logging stopped, and S3 public access block removed.</li>
+        <li><strong>2 of 2</strong> simulated attacks caught on the first daily scorecard, with a <strong>10 minute</strong> median time to detect.</li>
+        <li><strong>144 of 144</strong> CloudTrail log files verified intact with digest validation.</li>
+        <li><strong>121 automated tests</strong> (90 Python, 31 Terraform) and an October AWS cost of <strong>$0.00</strong>.</li>
+      </ul>
+    </section>
+    <section class="detail">
+      <h2>Collect and process</h2>
+      <p>A dedicated CloudTrail trail records management events from every region into an encrypted, versioned, private S3 bucket with signed hourly digests. Each new log file triggers a Lambda that validates events, quarantines bad records, removes duplicates, converts times to UTC, and writes Parquet partitioned by day and region. Failures land in an SQS queue. Glue and Athena make the data queryable with SQL under a 10 MiB scan cap per query.</p>
+    </section>
+    <section class="detail">
+      <h2>Detect and respond</h2>
+      <p>Every 15 minutes a scheduled Lambda runs all six rules in Athena and posts each new finding to Slack exactly once, with severity, MITRE technique, and a runbook link. A DynamoDB table records what was already sent, so overlapping runs never duplicate an alert, and a failed Slack post is retried on the next run. The Slack webhook lives in an encrypted SSM parameter and never enters code or Terraform state.</p>
+      <p>A read only findings API (API Gateway and Lambda) requires signed IAM credentials on every route and passes user input to Athena only as query parameters.</p>
+    </section>
+    <section class="detail">
+      <h2>Validate and monitor</h2>
+      <p>Every six hours an attack simulator performs one harmless, reversible action on canary resources (a user with no permissions, an empty bucket, or a brief pause of the trail) and always restores the original setting. Those actions land in CloudTrail like real ones, and a daily scorecard reports what was caught, missed, and how fast. Eight CloudWatch alarms watch the pipeline itself for errors, stuck queues, and silence.</p>
+      <div class="figs">
+        <figure><a href="img/cloud-detection/slack-simulation-alert.png" target="_blank" rel="noopener"><img src="img/cloud-detection/slack-simulation-alert.png" alt="Slack alert for a simulated CloudTrail StopLogging event, with the account ID redacted." width="1260" height="270" loading="lazy"></a><figcaption>A simulated StopLogging event reached Slack about 10 minutes after it happened. Account ID redacted.</figcaption></figure>
+        <figure><a href="img/cloud-detection/slack-health-alarms.png" target="_blank" rel="noopener"><img src="img/cloud-detection/slack-health-alarms.png" alt="Slack messages from the pipeline health alarms." width="1775" height="775" loading="lazy"></a><figcaption>Pipeline health alarms reporting to the same channel after deployment.</figcaption></figure>
+      </div>
+    </section>
+    <section class="detail">
+      <h2>Build and deploy</h2>
+      <p>All infrastructure is defined in ten Terraform modules with remote state and locking in S3. Pull requests run tests and a read only Terraform plan. Pushes to main plan again, wait for my approval in a protected environment, then apply only if the changes match the plan I approved. GitHub gets one hour AWS credentials through OIDC, trusted only for this repository by its numeric IDs, so no AWS keys are stored anywhere.</p>
+    </section>
+    <section class="detail">
+      <h2>What I learned</h2>
+      <ul class="points">
+        <li>CloudTrail's AssumeRoleWithWebIdentity events showed the exact OIDC subject GitHub sent, which fixed a failing deploy role and made the trust stricter.</li>
+        <li>The plan match check refused a deploy when a KMS deny hid Lambda settings from the plan role. The safety check worked as designed, and the fix scoped the deny correctly.</li>
+        <li>A Slack webhook pasted several times returned success but delivered nothing, so the runner now accepts only one exact webhook URL.</li>
+      </ul>
+    </section>
+    <nav class="pager"><span></span><a class="next" href="aws-portfolio-site.html"><small>Next</small>AWS Hosted Portfolio with Automated Deploys</a></nav>
+    <footer><p>Houston, TX &middot; Hosted on Amazon S3 and CloudFront</p></footer>
+  </main>
+</body>
+</html>
