@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "05-aws-portfolio-website/site/**"
+      - "04-aws-portfolio-website/site/**"
       - ".github/workflows/deploy-portfolio.yml"
   workflow_dispatch:
 
@@ -33,7 +33,7 @@ jobs:
 
       - name: Upload site to S3
         run: |
-          aws s3 sync 05-aws-portfolio-website/site "s3://${{ vars.S3_BUCKET }}" --delete
+          aws s3 sync 04-aws-portfolio-website/site "s3://${{ vars.S3_BUCKET }}" --delete
 
       - name: Clear CloudFront cache
         run: |

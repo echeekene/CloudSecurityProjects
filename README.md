@@ -1,8 +1,10 @@
 # Cloud Security & Cybersecurity Projects
 
-This repository documents my hands-on cybersecurity, cloud security, IAM, security automation, and database security projects.
+This repository documents my hands-on cloud security, security monitoring, and database security projects.
 
-I built these projects to gain practical experience securing cloud environments, managing identities and access, analyzing security events, automating security tasks, and protecting data.
+I built these projects to gain practical experience securing cloud environments, analyzing security events, automating security tasks, and protecting data.
+
+**Featured project:** [Cloud Detection Pipeline](https://github.com/echeekene/Cloud-detection-pipeline), an AWS threat detection pipeline with six MITRE ATT&CK detections every 15 minutes, Slack alerts, scheduled attack simulation, and keyless CI/CD. It lives in its own repository.
 
 ## Projects
 
@@ -17,27 +19,18 @@ Completed AWS security lab covering IAM least privilege, S3 access controls and 
 
 ---
 
-### 02 - Microsoft Entra IAM Management
-Identity and access management lab focused on users, groups, RBAC, MFA, and least-privilege access.
-
-**Technologies:** Microsoft Entra ID, IAM, RBAC, MFA
-
-**Status:** Planned
-
----
-
-### 03 - Active Directory Security Monitoring with Splunk
+### 02 - Active Directory Security Monitoring with Splunk
 Windows Active Directory lab focused on failed login detection, account lockout monitoring, security dashboards, and scheduled alerts. Future updates include Python triage, reporting, and notifications.
 
 **Technologies:** VMware Workstation, Windows Server, AD DS, Group Policy, Splunk Enterprise, Universal Forwarder, SPL, PowerShell
 
 **Status:** Core lab completed; validation and automation improvements planned
 
-[View project](03-splunk-security-automation/README.md)
+[View project](02-splunk-security-automation/README.md)
 
 ---
 
-### 04 - Database Security Lab
+### 03 - Database Security Lab
 Database security project focused on SQL permissions, user access, auditing, and securing sensitive data.
 
 **Technologies:** MySQL, SQL, Python
@@ -46,10 +39,10 @@ Database security project focused on SQL permissions, user access, auditing, and
 
 ---
 
-### 05 - AWS Portfolio Website
-Cloud-hosted portfolio showcasing cybersecurity and cloud projects.
+### 04 - AWS Portfolio Website
+Cloud-hosted portfolio showcasing cybersecurity and cloud projects, deployed with GitHub Actions and OIDC.
 
-**Technologies:** AWS, S3, CloudFront, HTML, CSS
+**Technologies:** AWS, S3, CloudFront, ACM, HTML, CSS, GitHub Actions
 
 **Status:** Complete (Live)
 
